@@ -1,9 +1,9 @@
 import { Express } from "express";
 import path from "path";
 import * as fs from "fs";
-import { Method, METHOD, Operation, Route } from "../types/Route";
+import { Method, METHOD, Operation, Route } from "./types/Route";
 import { OpenAPIV3_1 } from "openapi-types";
-import * as elementsUi from "./elements-ui";
+import * as elementsUi from "./utils/elements-ui";
 
 interface IOptions {
   app: Express;
