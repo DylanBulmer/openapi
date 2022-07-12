@@ -29,7 +29,7 @@ const settings: OpenAPIV3_1.Document = {
     },
   },
 
-  // paths are derived from args.routes.  These are filled in by fs-routes.
+  // paths are derived from the routes directory, do not add them here.
   paths: {},
 
   components: {

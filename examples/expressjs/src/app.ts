@@ -28,7 +28,7 @@ app.use(((err, req, res, next) => {
     return next(err);
   }
 
-  // if the path is for API, have it handle the error
+  // if the path is for the API, have it handle the error
   if (req.path.startsWith("/api")) {
     return v1.get("errorHandler")(err, req, res, next);
   }
@@ -41,7 +41,7 @@ app.use((req, res, next) => {
   // catch 404 errors?
 
   // if the path is for API v1, have v1 handler the error
-  if (req.path.startsWith("/api/v1")) {
+  if (req.path.startsWith("/api")) {
     const err = new Error({ status: 404, message: `not found: ${req.path}` });
     return v1.get("errorHandler")(err, req, res, next);
   }
