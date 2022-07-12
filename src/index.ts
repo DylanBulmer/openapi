@@ -20,7 +20,7 @@ interface IOptions {
 }
 
 export const initialize = function initialize({ app, api, ui }: IOptions) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise(resolve => {
     (async () => {
       for await (const r of getFiles(api.routes)) {
         await import(path.join(api.routes, r.url)).then((route: Route) => {
@@ -33,7 +33,7 @@ export const initialize = function initialize({ app, api, ui }: IOptions) {
               api.doc.paths = {};
             }
 
-            let path = api.doc.paths[r.url];
+            const path = api.doc.paths[r.url];
 
             // add route dynamically to the OpenAPI docs
             if (typeof path === "undefined") {
@@ -49,18 +49,25 @@ export const initialize = function initialize({ app, api, ui }: IOptions) {
             switch (key) {
               case "GET":
                 app.get(r.url, operation);
+                break;
               case "POST":
                 app.post(r.url, operation);
+                break;
               case "PATCH":
                 app.patch(r.url, operation);
+                break;
               case "PUT":
                 app.put(r.url, operation);
+                break;
               case "OPTIONS":
                 app.options(r.url, operation);
+                break;
               case "DELETE":
                 app.delete(r.url, operation);
+                break;
               case "HEAD":
                 app.head(r.url, operation);
+                break;
             }
           }
         });
@@ -68,26 +75,26 @@ export const initialize = function initialize({ app, api, ui }: IOptions) {
     })();
 
     if (api.expose) {
-      app.get(api.url || "/openapi", (req, res, next) => {
+      app.get(api.url || "/openapi", (req, res) => {
         res.status(200).json(api.doc);
       });
       app.get(
         api.url ? `${api.url}/expanded` : "/openapi/expanded",
-        (req, res, next) => {
+        (req, res) => {
           const readable = JSON.stringify(api.doc, undefined, 2);
           res.status(200).send(`<pre>${readable}</pre>`);
-        }
+        },
       );
 
       console.log(
         `OpenAPI spec is hosted at ${api.url || "/openapi"} and ${
           api.url || "/openapi"
-        }/expanded`
+        }/expanded`,
       );
     }
 
     if (ui?.enable) {
-      app.get(ui.url || "/docs", (req, res, next) => {
+      app.get(ui.url || "/docs", (req, res) => {
         res.send(elementsUi.render(api.doc));
       });
 
@@ -100,7 +107,7 @@ export const initialize = function initialize({ app, api, ui }: IOptions) {
 
 const getFiles = async function* getFiles(
   folder: string,
-  basePath: string = "/"
+  basePath = "/",
 ): AsyncGenerator<{ url: string; name: string }> {
   // get dirents from folder location.
   const dirents = fs.readdirSync(folder, { withFileTypes: true });
