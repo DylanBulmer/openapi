@@ -4,14 +4,14 @@
   "main": "index.js",
   "author": "Dylan Bulmer <dylan@bulmersolutions.com>",
   "license": "MIT",
-  "directories": {
-    "lib": "./lib"
-  },
   "scripts": {
-    "build": "yarn clean && tsc && cp package.json lib",
+    "build": "yarn clean && tsc && cp package.json lib/",
     "clean": "rm -rf ./lib",
-    "custom-publish": "yarn build && cd ./lib && yarn publish",
-    "postpublish": "cp package.json ../ && cd ../"
+    "format": "prettier --write \"src/**/*.(ts|js)\"",
+    "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore --ext .ts src",
+    "preversion": "yarn lint",
+    "version": "yarn format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
@@ -21,8 +21,17 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/jest": "^28.1.4",
     "@types/node": "^17.0.33",
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
+    "eslint": "^8.19.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jest": "^26.5.3",
+    "jest": "^28.1.2",
     "openapi-types": "^11.0.0",
+    "prettier": "^2.7.1",
+    "ts-jest": "^28.0.5",
     "typescript": "^4.6.4"
   }
 }
