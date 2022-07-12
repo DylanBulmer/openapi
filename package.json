@@ -5,7 +5,7 @@
   "author": "Dylan Bulmer <dylan@bulmersolutions.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest --config jestconfig.json",
+    "test": "jest --config jestconfig.json --passWithNoTests",
     "build": "yarn clean && tsc && cp package.json lib/",
     "clean": "rm -rf ./lib",
     "format": "prettier --write \"src/**/*.(ts|js)\"",
