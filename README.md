@@ -24,6 +24,8 @@ Next, `cd` into your projects directory if you have one, if not, cd to a locatio
 cd path/to/projects
 
 svn export https://github.com/DylanBulmer/openapi/trunk/examples/expressjs ./express-openapi-example
+
+cd ./express-openapi-example
 ```
 
 Now install the necessary packages with `yarn` or `npm`
