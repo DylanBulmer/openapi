@@ -1,4 +1,5 @@
 # @dylanbulmer/openapi
+[![Node.js Package](https://github.com/DylanBulmer/openapi/actions/workflows/npm-publish-github-packages.yml/badge.svg)](https://github.com/DylanBulmer/openapi/actions/workflows/npm-publish-github-packages.yml)
 
 This is a lightweight OpenAPI middleware library for ExpressJS.
 
