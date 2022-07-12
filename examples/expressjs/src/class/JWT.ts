@@ -1,5 +1,5 @@
 import express from "express";
-import jwt, { Algorithm, Jwt } from "jsonwebtoken";
+import jwt, { Algorithm, } from "jsonwebtoken";
 import { Error } from "./Error";
 
 export function verifyToken(
@@ -10,7 +10,7 @@ export function verifyToken(
   const bearerRegex = /^Bearer\s/;
 
   if (token && bearerRegex.test(token)) {
-    var newToken = token.replace(bearerRegex, "");
+    const newToken = token.replace(bearerRegex, "");
     jwt.verify(
       newToken,
       "secretKey",

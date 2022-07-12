@@ -1,8 +1,8 @@
-import { Operation } from "../../../../src/types/Route";
+import { Operation } from "@dylanbulmer/openapi/types/Route";
 
 export const GET: Operation =
   /* business middleware not expressible by OpenAPI documentation goes here */
-  (req, res, next) => {
+  (req, res) => {
     res.status(200).json({ detail: { message: "OK" } });
   };
 

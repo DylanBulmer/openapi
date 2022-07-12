@@ -1,5 +1,5 @@
 import { Error } from "../../class/Error";
-import { Operation } from "../../../../src/types/Route";
+import { Operation } from "@dylanbulmer/openapi/types/Route";
 
 export const GET: Operation =
   /* business middleware not expressible by OpenAPI documentation goes here */
@@ -13,7 +13,7 @@ export const GET: Operation =
         new Error({
           status: 401,
           message: "Bearer token is either missing or invalid.",
-        })
+        }),
       );
     }
   };

@@ -1,9 +1,9 @@
 import { R200 } from "../../components/responses";
-import { Operation } from "../../../../../src/types/Route";
+import { Operation } from "@dylanbulmer/openapi/types/Route";
 
 export const POST: Operation =
   /* business middleware not expressible by OpenAPI documentation goes here */
-  (req, res, next) => {
+  (req, res) => {
     return res.json({
       detail: {
         token: "string",

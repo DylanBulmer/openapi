@@ -9,12 +9,8 @@ const settings: OpenAPIV3_1.Document = {
   // The servers property breaks all apis for some reason
   servers: [
     {
-      url: "http://localhost:8000/api/v1/",
+      url: `http://localhost:8000/api/`,
       description: "Dev Server"
-    },
-    {
-      url: "https://api.dylanbulmer.com/v1/",
-      description: "Live Server"
     },
   ],
 
