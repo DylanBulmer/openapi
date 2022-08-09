@@ -1,11 +1,11 @@
 {
   "name": "@dylanbulmer/openapi",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "author": "Dylan Bulmer <dylan@bulmersolutions.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest --config jestconfig.json --passWithNoTests",
+    "test": "jest --config jestconfig.json --passWithNoTests --coverage",
     "build": "yarn clean && tsc && cp package.json lib/",
     "clean": "rm -rf ./lib",
     "format": "prettier --write \"src/**/*.(ts|js)\"",

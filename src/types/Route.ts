@@ -20,7 +20,7 @@ export enum Method {
   "HEAD" = "head",
 }
 
-export type Operation = RequestHandler & {
+export type Operation = (RequestHandler | RequestHandler[]) & {
   apiDoc?: OpenAPIV3_1.OperationObject;
 };
 
