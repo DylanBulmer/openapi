@@ -20,10 +20,10 @@ interface IOptions {
 }
 
 export const initialize = function initialize({ app, api, ui }: IOptions) {
-  return new Promise(resolve => {
+  return new Promise<OpenAPIV3_1.Document>(resolve => {
     (async () => {
       for await (const r of getFiles(api.routes)) {
-        await import(path.join(api.routes, r.url)).then((route: Route) => {
+        await import(path.join(api.routes, r.path)).then((route: Route) => {
           for (const key of <METHOD[]>Object.keys(route)) {
             const method = Method[key];
             const operation = <Operation>route[key];
@@ -33,11 +33,11 @@ export const initialize = function initialize({ app, api, ui }: IOptions) {
               api.doc.paths = {};
             }
 
-            const path = api.doc.paths[r.url];
+            const path = api.doc.paths[r.url.openapi];
 
             // add route dynamically to the OpenAPI docs
             if (typeof path === "undefined") {
-              api.doc.paths[r.url] = {
+              api.doc.paths[r.url.openapi] = {
                 [method]: operation.apiDoc ? operation.apiDoc : defaultDoc,
               };
             } else {
@@ -48,67 +48,71 @@ export const initialize = function initialize({ app, api, ui }: IOptions) {
 
             switch (key) {
               case "GET":
-                app.get(r.url, operation);
+                app.get(r.url.express, operation);
                 break;
               case "POST":
-                app.post(r.url, operation);
+                app.post(r.url.express, operation);
                 break;
               case "PATCH":
-                app.patch(r.url, operation);
+                app.patch(r.url.express, operation);
                 break;
               case "PUT":
-                app.put(r.url, operation);
+                app.put(r.url.express, operation);
                 break;
               case "OPTIONS":
-                app.options(r.url, operation);
+                app.options(r.url.express, operation);
                 break;
               case "DELETE":
-                app.delete(r.url, operation);
+                app.delete(r.url.express, operation);
                 break;
               case "HEAD":
-                app.head(r.url, operation);
+                app.head(r.url.express, operation);
                 break;
             }
           }
         });
       }
+
+      if (api.expose) {
+        app.get(api.url || "/openapi", (req, res) => {
+          res.status(200).json(api.doc);
+        });
+        app.get(
+          api.url ? `${api.url}/expanded` : "/openapi/expanded",
+          (req, res) => {
+            const readable = JSON.stringify(api.doc, undefined, 2);
+            res.status(200).send(`<pre>${readable}</pre>`);
+          },
+        );
+
+        console.log(
+          `OpenAPI spec is hosted at ${api.url || "/openapi"} and ${
+            api.url || "/openapi"
+          }/expanded`,
+        );
+      }
+
+      if (ui?.enable) {
+        app.get(ui.url || "/docs", (req, res) => {
+          res.send(elementsUi.render(api.doc));
+        });
+
+        console.log(`ElementsUI is hosted at ${ui.url || "/docs"}`);
+      }
+
+      return resolve(api.doc);
     })();
-
-    if (api.expose) {
-      app.get(api.url || "/openapi", (req, res) => {
-        res.status(200).json(api.doc);
-      });
-      app.get(
-        api.url ? `${api.url}/expanded` : "/openapi/expanded",
-        (req, res) => {
-          const readable = JSON.stringify(api.doc, undefined, 2);
-          res.status(200).send(`<pre>${readable}</pre>`);
-        },
-      );
-
-      console.log(
-        `OpenAPI spec is hosted at ${api.url || "/openapi"} and ${
-          api.url || "/openapi"
-        }/expanded`,
-      );
-    }
-
-    if (ui?.enable) {
-      app.get(ui.url || "/docs", (req, res) => {
-        res.send(elementsUi.render(api.doc));
-      });
-
-      console.log(`ElementsUI is hosted at ${ui.url || "/docs"}`);
-    }
-
-    return resolve(api.doc);
   });
 };
 
 const getFiles = async function* getFiles(
   folder: string,
   basePath = "/",
-): AsyncGenerator<{ url: string; name: string }> {
+): AsyncGenerator<{
+  url: { express: string; openapi: string };
+  name: string;
+  path: string;
+}> {
   // get dirents from folder location.
   const dirents = fs.readdirSync(folder, { withFileTypes: true });
   // for each dirent, determine if it's a folder or file.
@@ -119,8 +123,27 @@ const getFiles = async function* getFiles(
       yield* getFiles(res, `${basePath}${dirent.name}/`);
     } else {
       // else get file name and return details
-      const route = dirent.name.replace(/\.(t|j)s/g, "");
-      yield { url: basePath + route, name: route };
+      const routePath = dirent.name.replace(/\.(t|j)s/g, "");
+      let routeName = routePath;
+      let expressUrl: string;
+      let openapiUrl: string;
+
+      // if route is dynamic, extract route name and adjust for express and openapi formating
+      const nameRegex = /\[(?<name>.+)\]/i;
+      if (nameRegex.test(routeName)) {
+        routeName = routeName.match(nameRegex)?.groups?.name as string;
+        expressUrl = `${basePath}:${routeName}`;
+        openapiUrl = `${basePath}{${routeName}}`;
+      } else {
+        expressUrl = `${basePath}${routeName}`;
+        openapiUrl = `${basePath}${routeName}`;
+      }
+
+      yield {
+        url: { express: expressUrl, openapi: openapiUrl },
+        name: routeName,
+        path: `${basePath}${routePath}`,
+      };
     }
   }
 };
