@@ -4,7 +4,7 @@ import path from "path";
 import { initialize } from "../../index";
 import apiDoc from "../api-doc";
 
-test("Static routes", () => {
+test("Index routes", () => {
   const app = express();
 
   return initialize({
