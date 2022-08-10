@@ -135,8 +135,14 @@ const getFiles = async function* getFiles(
         expressUrl = `${basePath}:${routeName}`;
         openapiUrl = `${basePath}{${routeName}}`;
       } else if (routeName === "index") {
-        expressUrl = `${basePath}`;
-        openapiUrl = `${basePath}`;
+        if (basePath === "/") {
+          expressUrl = `${basePath}`;
+          openapiUrl = `${basePath}`;
+        } else {
+          const base = basePath.substring(0, basePath.length - 1);
+          expressUrl = `${base}`;
+          openapiUrl = `${base}`;
+        }
       } else {
         expressUrl = `${basePath}${routeName}`;
         openapiUrl = `${basePath}${routeName}`;

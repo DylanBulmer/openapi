@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --config jest.config.json --passWithNoTests --coverage",
-    "build": "yarn clean && swc src -d lib && cp package.json lib/",
+    "build": "yarn clean && swc src -d lib && tsc && cp package.json lib/",
     "clean": "rm -rf ./lib",
     "format": "prettier --write \"src/**/*.(ts|js)\"",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore --ext .ts src",
