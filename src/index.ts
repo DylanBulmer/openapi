@@ -134,6 +134,9 @@ const getFiles = async function* getFiles(
         routeName = routeName.match(nameRegex)?.groups?.name as string;
         expressUrl = `${basePath}:${routeName}`;
         openapiUrl = `${basePath}{${routeName}}`;
+      } else if (routeName === "index") {
+        expressUrl = `${basePath}`;
+        openapiUrl = `${basePath}`;
       } else {
         expressUrl = `${basePath}${routeName}`;
         openapiUrl = `${basePath}${routeName}`;

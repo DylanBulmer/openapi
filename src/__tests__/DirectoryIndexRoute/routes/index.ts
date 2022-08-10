@@ -8,7 +8,7 @@ export const GET: Operation =
 
 // 3.0 specification
 GET.apiDoc = {
-  description: "Testing static route",
+  description: "Testing index route",
   tags: ["TEST"],
   responses: {
     "200": {
