@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json.schemastore.org/swcrc",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "dynamicImport": true
+    },
+    "baseUrl": "./src",
+    "paths": {
+      "classes/*": ["classes/*"],
+      "types/*": ["types/*"],
+      "utils/*": ["utils/*"]
+    }
+  },
+  "env": {
+    "targets": {
+      "node": 16
+    }
+  },
+  "module": {
+    "type": "commonjs"
+  },
+  "exclude": ["__tests__/*"],
+  "minify": true
+}
