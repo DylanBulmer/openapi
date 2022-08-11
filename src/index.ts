@@ -46,6 +46,7 @@ export const initialize = function initialize({ app, api, ui }: IOptions) {
                 : defaultDoc;
             }
 
+            // apply the route to express app.
             switch (key) {
               case "GET":
                 app.get(r.url.express, operation);
@@ -124,33 +125,32 @@ const getFiles = async function* getFiles(
     } else {
       // else get file name and return details
       const routePath = dirent.name.replace(/\.(t|j)s/g, "");
-      let routeName = routePath;
-      let expressUrl: string;
-      let openapiUrl: string;
+      let currentPath;
 
-      // if route is dynamic, extract route name and adjust for express and openapi formating
-      const nameRegex = /\[(?<name>.+)\]/i;
-      if (nameRegex.test(routeName)) {
-        routeName = routeName.match(nameRegex)?.groups?.name as string;
-        expressUrl = `${basePath}:${routeName}`;
-        openapiUrl = `${basePath}{${routeName}}`;
-      } else if (routeName === "index") {
+      // if route name is index, update url structure
+      if (routePath === "index") {
+        // if the base path is the root, change current path to root.
         if (basePath === "/") {
-          expressUrl = `${basePath}`;
-          openapiUrl = `${basePath}`;
-        } else {
-          const base = basePath.substring(0, basePath.length - 1);
-          expressUrl = `${base}`;
-          openapiUrl = `${base}`;
+          currentPath = basePath;
         }
-      } else {
-        expressUrl = `${basePath}${routeName}`;
-        openapiUrl = `${basePath}${routeName}`;
+        // else update current path with the base path without the trailing slash.
+        else {
+          const base = basePath.substring(0, basePath.length - 1);
+          currentPath = base;
+        }
+      }
+      // else set the current path to base path plus the route path
+      else {
+        currentPath = `${basePath}${routePath}`;
       }
 
+      // yeild result, replacing all dynamic routes to their appropriate form.
       yield {
-        url: { express: expressUrl, openapi: openapiUrl },
-        name: routeName,
+        url: {
+          express: currentPath.replace(/\[(?<name>.+)\]/i, ":$1"),
+          openapi: currentPath.replace(/\[(?<name>.+)\]/i, "{$1}"),
+        },
+        name: routePath,
         path: `${basePath}${routePath}`,
       };
     }

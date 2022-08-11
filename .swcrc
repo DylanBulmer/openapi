@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json.schemastore.org/swcrc",
+  "$schema": "https://json.schemastore.org/swcrc.json",
   "jsc": {
     "parser": {
       "syntax": "typescript",

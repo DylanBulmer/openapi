@@ -6,7 +6,6 @@ import apiDoc from "../api-doc";
 
 test("Dynamic routes", () => {
   const app = express();
-
   return initialize({
     app,
     api: {
@@ -19,14 +18,15 @@ test("Dynamic routes", () => {
       // url: "/docs/elements"
     },
   }).then(doc => {
-    // check if dynamic route exists
-    expect(Object.keys(doc.paths as OpenAPIV3_1.PathsObject)).toContain(
-      "/{test}",
+    const paths = doc.paths as OpenAPIV3_1.PathsObject;
+    const pathKeys = Object.keys(paths);
+    // check if dynamic route file exists
+    expect(pathKeys).toContain("/{test}");
+    expect(paths["/{test}"]?.get?.description).toBe("Testing dynamic routes");
+    // check if dynamic route folder exists
+    expect(pathKeys).toContain("/{test2}");
+    expect(paths["/{test2}"]?.get?.description).toBe(
+      "Testing dynamic folder as route",
     );
-
-    // check if dynamic route's GET description is set
-    expect(
-      (doc.paths as OpenAPIV3_1.PathsObject)["/{test}"]?.get?.description,
-    ).toBe("Testing dynamic routes");
   });
 });
