@@ -53,6 +53,6 @@ jobs:
         with:
           name: lib
           path: lib/
-      - run: cd lib && yarn publish
+      - run: cd lib && yarn publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_ACCESS_TOKEN}}
