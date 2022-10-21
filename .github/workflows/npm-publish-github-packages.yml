@@ -36,7 +36,7 @@ jobs:
       - run: yarn test
 
   publish-gpr:
-    name: Publish to GPR
+    name: Publish to NPM
     needs: test
     runs-on: ubuntu-latest
     permissions:
@@ -48,7 +48,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16.x"
-          registry-url: https://npm.pkg.github.com/
+          # registry-url: https://npm.pkg.github.com/
           # Defaults to the user or organization that owns the workflow file
           scope: "@dylanbulmer"
       - run: yarn

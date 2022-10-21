@@ -14,9 +14,6 @@
     "version": "yarn format && git add -A src",
     "postversion": "git push && git push --tags"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "dependencies": {
     "express": "^4.18.1"
   },
