@@ -1,5 +1,16 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import { R200, R201, R204, R400, R401, R403, R404, R418, R500, R503 } from "./components/responses";
+import {
+  R200,
+  R201,
+  R204,
+  R400,
+  R401,
+  R403,
+  R404,
+  R418,
+  R500,
+  R503,
+} from "@dylanbulmer/openapi/classes/responses";
 import { ErrorSchema, GenericSchema } from "./components/schemas";
 import { BearerSchema } from "./components/securitySchemas";
 
@@ -10,7 +21,7 @@ const settings: OpenAPIV3_1.Document = {
   servers: [
     {
       url: `http://localhost:8000/api/`,
-      description: "Dev Server"
+      description: "Dev Server",
     },
   ],
 

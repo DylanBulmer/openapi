@@ -1,4 +1,4 @@
-import { R200 } from "../../components/responses";
+import { R200 } from "@dylanbulmer/openapi/classes/responses";
 import { Operation } from "@dylanbulmer/openapi/types/Route";
 
 export const POST: Operation =
