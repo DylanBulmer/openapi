@@ -21,8 +21,8 @@ test("Dynamic routes", () => {
     const paths = doc.paths as OpenAPIV3_1.PathsObject;
     const pathKeys = Object.keys(paths);
     // check if dynamic route file exists
-    expect(pathKeys).toContain("/{test}");
-    expect(paths["/{test}"]?.get?.description).toBe("Testing dynamic routes");
+    expect(pathKeys).toContain("/test");
+    expect(paths["/test"]?.get?.description).toBe("Testing dynamic routes");
     // check if dynamic route folder exists
     expect(pathKeys).toContain("/{test2}");
     expect(paths["/{test2}"]?.get?.description).toBe(

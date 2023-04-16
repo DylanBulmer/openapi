@@ -75,20 +75,20 @@ export const initialize = function initialize({ app, api, ui }: IOptions) {
       }
 
       if (api.expose) {
-        app.get(api.url || "/openapi", (req, res) => {
+        app.get(api.url || "/apidocs", (_req, res) => {
           res.status(200).json(api.doc);
         });
         app.get(
-          api.url ? `${api.url}/expanded` : "/openapi/expanded",
-          (req, res) => {
+          api.url ? `${api.url}/expanded` : "/apidocs/expanded",
+          (_req, res) => {
             const readable = JSON.stringify(api.doc, undefined, 2);
             res.status(200).send(`<pre>${readable}</pre>`);
           },
         );
 
         console.log(
-          `OpenAPI spec is hosted at ${api.url || "/openapi"} and ${
-            api.url || "/openapi"
+          `OpenAPI spec is hosted at ${api.url || "/apidocs"} and ${
+            api.url || "/apidocs"
           }/expanded`,
         );
       }
@@ -115,7 +115,25 @@ const getFiles = async function* getFiles(
   path: string;
 }> {
   // get dirents from folder location.
-  const dirents = fs.readdirSync(folder, { withFileTypes: true });
+  const dirents = fs
+    .readdirSync(folder, { withFileTypes: true })
+    // .sort((a, b) => {
+    //   // sort directories to top of array
+    //   const aIsDir = a.isDirectory() ? 1 : 0;
+    //   const bIsDir = b.isDirectory() ? 1 : 0;
+    //   if (bIsDir > aIsDir) return 1;
+    //   if (bIsDir == aIsDir) return 0;
+    //   else return -1;
+    // })
+    .sort((a, b) => {
+      // sort dynamic routes to end
+      const regex = /\[(\w+)\]/i;
+      const aIsDynamic = regex.test(a.name) ? 1 : 0;
+      const bIsDynamic = regex.test(b.name) ? 1 : 0;
+      if (bIsDynamic < aIsDynamic) return 1;
+      if (bIsDynamic == aIsDynamic) return 0;
+      else return -1;
+    });
   // for each dirent, determine if it's a folder or file.
   for (const dirent of dirents) {
     const res = path.resolve(folder, dirent.name);
