@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response, { type IResponse } from "../openapi/Response";
+import Response, { type IResponse } from "../Response.js";
 
 const defaultDescription = `The HTTP \`404 Not Found\` response status code indicates that the server cannot find the requested resource. Links that lead to a 404 page are often called broken or dead links and can be subject to [link rot](https://en.wikipedia.org/wiki/Link_rot).
 

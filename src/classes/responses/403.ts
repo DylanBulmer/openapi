@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response, { type IResponse } from "../openapi/Response";
+import Response, { type IResponse } from "../Response.js";
 
 const defaultDescription = `The HTTP \`403 Forbidden\` response status code indicates that the server understands the request but refuses to authorize it.
 

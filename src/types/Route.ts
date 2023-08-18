@@ -27,6 +27,11 @@ export enum Method {
   "UNSUBSCRIBE" = "unsubscribe",
 }
 
-export type Operation = RequestHandler | RequestHandler[];
+export type Operation<P extends string, Q extends string> = RequestHandler<
+  { [K in P]: string },
+  any,
+  any,
+  { [K in Q]: string }
+>;
 
-export type Route = Partial<Record<MethodType, Operation>>;
+export type Route = Partial<Record<MethodType, Operation<string, string>[]>>;

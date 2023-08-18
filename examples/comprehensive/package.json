@@ -1,0 +1,11 @@
+{
+  "name": "comprehensive-example",
+  "version": "1.0.0",
+  "description": "A comprehensive example of API v2",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dylan Bulmer <dylan@dylanbulmer.com>",
+  "license": "MIT"
+}

@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response, { type IResponse } from "../openapi/Response";
+import Response, { type IResponse } from "../Response.js";
 
 const defaultDescription = `The HTTP \`503 Service Unavailable\` server error response code indicates that the server is not ready to handle the request.
 

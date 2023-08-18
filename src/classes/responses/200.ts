@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response, { type IResponse } from "../openapi/Response";
+import Response, { type IResponse } from "../Response.js";
 
 const defaultDescription = `The HTTP \`200 OK\` success status response code indicates that the request has succeeded. A 200 response is cacheable by default.
 
@@ -15,7 +15,6 @@ The successful result of a [PUT](https://developer.mozilla.org/en-US/docs/Web/HT
 const defaultContent: { [k: string]: OpenAPIV3_1.MediaTypeObject } = {
   "application/json": {
     schema: {
-      allOf: [{ $ref: "#/components/schemas/GenericSchema" }],
       properties: {
         detail: {
           type: "object",

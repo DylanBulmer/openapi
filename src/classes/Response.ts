@@ -1,3 +1,4 @@
+import { AtLeast } from "@/types/TypeUtils";
 import { OpenAPIV3_1 } from "openapi-types";
 
 export interface IResponse {
@@ -11,7 +12,10 @@ export default class Response {
   description: IResponse["description"];
   content?: IResponse["content"];
 
-  constructor({ description, content }: IResponse) {
+  constructor({
+    description,
+    content,
+  }: AtLeast<OpenAPIV3_1.ResponseObject, "description">) {
     this.description = description;
     this.content = content;
   }

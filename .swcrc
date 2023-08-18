@@ -1,24 +1,16 @@
 {
-  "$schema": "https://json.schemastore.org/swcrc.json",
+  "$schema": "https://json.schemastore.org/swcrc",
   "jsc": {
     "parser": {
       "syntax": "typescript",
       "dynamicImport": true
     },
+    "target": "es2021",
+    "keepClassNames": false,
     "baseUrl": "./src",
     "paths": {
-      "classes/*": ["classes/*"],
-      "types/*": ["types/*"],
-      "utils/*": ["utils/*"]
+      "@/*": ["./*"]
     }
-  },
-  "env": {
-    "targets": {
-      "node": 16
-    }
-  },
-  "module": {
-    "type": "commonjs"
   },
   "minify": true
 }

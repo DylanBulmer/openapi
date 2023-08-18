@@ -1,4 +1,4 @@
-import Response, { type IResponse } from "../openapi/Response";
+import Response, { type IResponse } from "../Response.js";
 
 const defaultDescription = `The HTTP \`204 No Content\` success status response code indicates that a request has succeeded, but that the client doesn't need to navigate away from its current page.
 

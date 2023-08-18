@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response, { type IResponse } from "../openapi/Response";
+import Response, { type IResponse } from "../Response.js";
 
 const defaultDescription = `The HyperText Transfer Protocol (HTTP) \`202 Accepted\` response status code indicates that the request has been accepted for processing, but the processing has not been completed; in fact, processing may not have started yet. The request might or might not eventually be acted upon, as it might be disallowed when processing actually takes place.
 
@@ -8,7 +8,6 @@ const defaultDescription = `The HyperText Transfer Protocol (HTTP) \`202 Accepte
 const defaultContent: { [k: string]: OpenAPIV3_1.MediaTypeObject } = {
   "application/json": {
     schema: {
-      allOf: [{ $ref: "#/components/schemas/GenericSchema" }],
       properties: {
         detail: {
           type: "object",

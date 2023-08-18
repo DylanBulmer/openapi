@@ -1,20 +1,29 @@
 {
-  "name": "@dylanbulmer/openapi",
+  "name": "@dylanbulmer/api",
   "version": "2.0.0-beta1",
   "main": "index.js",
   "author": "Dylan Bulmer <dylan@dylanbulmer.com>",
   "license": "MIT",
+  "bin": {
+    "api": "lib/index.js"
+  },
+  "type": "module",
   "scripts": {
     "test": "jest --config jest.config.json --passWithNoTests --coverage",
-    "build": "yarn clean && swc src -d lib && tsc && cp package.json lib/",
-    "clean": "rm -rf ./lib",
+    "build": "yarn clean && swc src -d lib && tsc --emitDeclarationOnly && cp package.json lib/ && chmod +x lib/index.js",
+    "clean": "rm -rf ./lib/*",
     "format": "prettier --write \"src/**/*.(ts|js)\"",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore --ext .ts src",
     "preversion": "yarn lint",
     "version": "yarn format && git add -A src",
     "postversion": "git push && git push --tags"
   },
+  "engines": {
+    "node": ">=16"
+  },
   "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.0.0",
     "express": "^4.18.2"
   },
   "devDependencies": {

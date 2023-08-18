@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response, { type IResponse } from "../openapi/Response";
+import Response, { type IResponse } from "../Response.js";
 
 const defaultDescription = `The HTTP \`401 Unauthorized\` response status code indicates that the client request has not been completed because it lacks valid authentication credentials for the requested resource.
 
