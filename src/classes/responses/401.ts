@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response, { type IResponse } from "../Response.js";
+import Response from "../Response.js";
 
 const defaultDescription = `The HTTP \`401 Unauthorized\` response status code indicates that the client request has not been completed because it lacks valid authentication credentials for the requested resource.
 
@@ -26,11 +26,7 @@ const defaultContent: { [k: string]: OpenAPIV3_1.MediaTypeObject } = {
   },
 };
 
-export default class Response401 extends Response {
-  constructor({ description, content }: Partial<IResponse>) {
-    super({
-      description: description || defaultDescription,
-      content: content || defaultContent,
-    });
-  }
-}
+const Response401 = new Response()
+  .description(defaultDescription)
+  .content("application/json", defaultContent);
+export default Response401;

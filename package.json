@@ -5,13 +5,13 @@
   "author": "Dylan Bulmer <dylan@dylanbulmer.com>",
   "license": "MIT",
   "bin": {
-    "api": "lib/index.js"
+    "api": "dist/index.js"
   },
   "type": "module",
   "scripts": {
     "test": "jest --config jest.config.json --passWithNoTests --coverage",
-    "build": "yarn clean && swc src -d lib && tsc --emitDeclarationOnly && cp package.json lib/ && chmod +x lib/index.js",
-    "clean": "rm -rf ./lib/*",
+    "build": "yarn clean && swc src -d dist && tsc --emitDeclarationOnly && cp package.json dist/ && chmod +x dist/index.js",
+    "clean": "rm -rf ./dist/*",
     "format": "prettier --write \"src/**/*.(ts|js)\"",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore --ext .ts src",
     "preversion": "yarn lint",

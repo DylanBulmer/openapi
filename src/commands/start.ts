@@ -14,7 +14,7 @@ const start = async function start(opts: { host: string; port: string }) {
   console.debug(chalk.blueBright(`Config: ${JSON.stringify(config)}`));
 
   // get the files
-  const routeMethods = await constructApp(buildDir);
+  const routeMethods = await construct(buildDir);
   console.log(routeMethods);
 
   for (const { file, method, url } of routeMethods) {
@@ -28,10 +28,10 @@ const start = async function start(opts: { host: string; port: string }) {
 
         if (typeof path === "undefined") {
           apiDoc.paths[url.openapi] = {
-            [method]: route.doc ? route.doc : {},
+            [method]: route.doc() ? route.doc() : {},
           };
         } else {
-          (<OpenAPIV3_1.PathsObject>path)[method] = route.doc ? route.doc : {};
+          (<OpenAPIV3_1.PathsObject>path)[method] = route.doc() ? route.doc() : {};
         }
       },
     );
@@ -41,7 +41,7 @@ const start = async function start(opts: { host: string; port: string }) {
   console.log(JSON.stringify(apiDoc));
 };
 
-const constructApp = async function constructApp(path: string) {
+const construct = async function constructApp(path: string) {
   const routeMethods = [];
 
   for await (const route of getRoutes(path)) {

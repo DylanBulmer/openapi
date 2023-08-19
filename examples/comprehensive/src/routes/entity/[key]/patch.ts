@@ -1,16 +1,18 @@
-import Route from "@dylanbulmer/api/classes/Route.js";
-import { Response200 } from "@dylanbulmer/api/classes/responses/index.js";
+import { Responses, Route, Parameter } from "@dylanbulmer/api";
+
+const pathParam = new Parameter()
+  .name("key")
+  .description("Entity key")
+  .in("path")
+  .type("string")
+  .required();
 
 const route = new Route<"key">()
   .summary("Update entity by key.")
   .description("Update an entity in the database with the given key.")
   .tags("Entity")
-  .params({
-    key: { type: "string", required: true, description: "Entity key" },
-  })
-  .responses({
-    "200": new Response200({}),
-  })
+  .params(pathParam)
+  .response("200", Responses.Response200)
   .operation((req, res) => {
     res.status(200).json({
       message: "OK",

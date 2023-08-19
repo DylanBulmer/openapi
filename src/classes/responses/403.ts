@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response, { type IResponse } from "../Response.js";
+import Response from "../Response.js";
 
 const defaultDescription = `The HTTP \`403 Forbidden\` response status code indicates that the server understands the request but refuses to authorize it.
 
@@ -23,11 +23,7 @@ const defaultContent: { [k: string]: OpenAPIV3_1.MediaTypeObject } = {
   },
 };
 
-export default class Response403 extends Response {
-  constructor({ description, content }: Partial<IResponse>) {
-    super({
-      description: description || defaultDescription,
-      content: content || defaultContent,
-    });
-  }
-}
+const Response403 = new Response()
+  .description(defaultDescription)
+  .content("application/json", defaultContent);
+export default Response403;

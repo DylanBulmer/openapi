@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response, { type IResponse } from "../Response.js";
+import Response from "../Response.js";
 
 const defaultDescription = `The HTTP \`500 Internal Server Error\` server error response code indicates that the server encountered an unexpected condition that prevented it from fulfilling the request.
 
@@ -23,11 +23,7 @@ const defaultContent: { [k: string]: OpenAPIV3_1.MediaTypeObject } = {
   },
 };
 
-export default class Response500 extends Response {
-  constructor({ description, content }: Partial<IResponse>) {
-    super({
-      description: description || defaultDescription,
-      content: content || defaultContent,
-    });
-  }
-}
+const Response500 = new Response()
+  .description(defaultDescription)
+  .content("application/json", defaultContent);
+export default Response500;

@@ -23,6 +23,11 @@ program.command("build").description("Build the server.").action(build);
 
 program.parse();
 
+export * as Responses from "./classes/responses/index.js";
+export { default as Parameter } from "./classes/Paramater.js";
+export { default as Response } from "./classes/Response.js";
+export { default as Route } from "./classes/Route.js";
+
 // interface IOptions {
 //   app: Express;
 //   api: {

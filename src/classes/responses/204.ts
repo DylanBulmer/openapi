@@ -1,4 +1,4 @@
-import Response, { type IResponse } from "../Response.js";
+import Response from "../Response.js";
 
 const defaultDescription = `The HTTP \`204 No Content\` success status response code indicates that a request has succeeded, but that the client doesn't need to navigate away from its current page.
 
@@ -7,11 +7,6 @@ This might be used, for example, when implementing "save and continue editing" f
 A 204 response is cacheable by default (an [ETag](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) header is included in such a response).
 ([mdn docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204))`;
 
-export default class Response204 extends Response {
-  constructor({ description, content }: Partial<IResponse>) {
-    super({
-      description: description || defaultDescription,
-      content: content,
-    });
-  }
-}
+const Response204 = new Response()
+  .description(defaultDescription);
+export default Response204;

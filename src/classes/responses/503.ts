@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response, { type IResponse } from "../Response.js";
+import Response from "../Response.js";
 
 const defaultDescription = `The HTTP \`503 Service Unavailable\` server error response code indicates that the server is not ready to handle the request.
 
@@ -23,11 +23,7 @@ const defaultContent: { [k: string]: OpenAPIV3_1.MediaTypeObject } = {
   },
 };
 
-export default class Response503 extends Response {
-  constructor({ description, content }: Partial<IResponse>) {
-    super({
-      description: description || defaultDescription,
-      content: content || defaultContent,
-    });
-  }
-}
+const Response503 = new Response()
+  .description(defaultDescription)
+  .content("application/json", defaultContent);
+export default Response503;

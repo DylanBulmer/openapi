@@ -1,19 +1,19 @@
-import Route from "@dylanbulmer/api/classes/Route.js";
-import { Response200 } from "@dylanbulmer/api/classes/responses/index.js";
+import { Responses, Route, Parameter } from "@dylanbulmer/api";
+
+const pathParam = new Parameter()
+  .name("key")
+  .description("Entity key")
+  .in("path")
+  .type("string")
+  .required();
+const queryParam = new Parameter(pathParam.doc()).name("queryKey").in("query");
 
 const route = new Route<"key", "queryKey">()
   .summary("Get entity by key.")
   .description("Get an entity from the database with the given key.")
   .tags("Entity")
-  .params({
-    key: { type: "string", required: true, description: "Entity key" },
-  })
-  .query({
-    queryKey: { type: "string", required: true, description: "Entity key" },
-  })
-  .responses({
-    "200": new Response200({}),
-  })
+  .params(pathParam, queryParam)
+  .response("200", Responses.Response200)
   .operation((req, res) => {
     res.status(200).json({
       message: "OK",

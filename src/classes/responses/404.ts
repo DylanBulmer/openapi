@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response, { type IResponse } from "../Response.js";
+import Response from "../Response.js";
 
 const defaultDescription = `The HTTP \`404 Not Found\` response status code indicates that the server cannot find the requested resource. Links that lead to a 404 page are often called broken or dead links and can be subject to [link rot](https://en.wikipedia.org/wiki/Link_rot).
 
@@ -23,11 +23,7 @@ const defaultContent: { [k: string]: OpenAPIV3_1.MediaTypeObject } = {
   },
 };
 
-export default class Response404 extends Response {
-  constructor({ description, content }: Partial<IResponse>) {
-    super({
-      description: description || defaultDescription,
-      content: content || defaultContent,
-    });
-  }
-}
+const Response404 = new Response()
+  .description(defaultDescription)
+  .content("application/json", defaultContent);
+export default Response404;

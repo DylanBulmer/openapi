@@ -1,29 +1,21 @@
-import { AtLeast } from "@/types/TypeUtils";
 import { OpenAPIV3_1 } from "openapi-types";
+import { BaseDescriptive } from "./Base.js";
 
 export interface IResponse {
   description: string;
-  content?: {
+  content: {
     [k: string]: OpenAPIV3_1.MediaTypeObject;
   };
 }
 
-export default class Response {
-  description: IResponse["description"];
-  content?: IResponse["content"];
-
-  constructor({
-    description,
-    content,
-  }: AtLeast<OpenAPIV3_1.ResponseObject, "description">) {
-    this.description = description;
-    this.content = content;
+export default class Response extends BaseDescriptive<OpenAPIV3_1.ResponseObject> {
+  constructor(doc = { description: "No description" }) {
+    super(doc);
   }
 
-  toApiDoc(): OpenAPIV3_1.ResponseObject {
-    return {
-      description: this.description,
-      content: this.content,
-    };
+  content(mediaType: string, obj: OpenAPIV3_1.MediaTypeObject) {
+    if (!this._doc.content) this._doc.content = {};
+    this._doc.content[mediaType] = obj;
+    return this;
   }
 }

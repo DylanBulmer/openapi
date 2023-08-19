@@ -2,5 +2,10 @@
   "file": {
     "routes": "src/routes",
     "docs": "docs"
+  },
+  "docs": {
+    "enabled": true,
+    "url": "/docs",
+    "exposeApiDocs": false
   }
 }
