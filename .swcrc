@@ -5,7 +5,7 @@
       "syntax": "typescript",
       "dynamicImport": true
     },
-    "target": "es2021",
+    "target": "es2015",
     "keepClassNames": false,
     "baseUrl": "./src",
     "paths": {

@@ -7,7 +7,10 @@ import getFiles from "@/utils/getFiles";
 const build = async function build() {
   const config = await getConfig();
   const buildDir = path.join(process.cwd(), ".api");
-  const routesDir = path.join(process.cwd(), config.file.routes);
+  const routesDir = path.join(
+    process.cwd(),
+    config.file.useSrcDir ? `src/${config.file.routes}` : config.file.routes,
+  );
 
   // clean the repository
   if (fs.existsSync(buildDir)) {

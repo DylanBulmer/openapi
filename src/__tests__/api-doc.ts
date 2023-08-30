@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import { R200, R201, R204, R400, R401, R403, R404, R418, R500, R503 } from "../classes/responses";
+import * as Responses from "../classes/responses";
 
 const settings: OpenAPIV3_1.Document = {
   openapi: "3.1.0",
@@ -32,16 +32,16 @@ const settings: OpenAPIV3_1.Document = {
 
   components: {
     responses: {
-      "200": R200,
-      "201": R201,
-      "204": R204,
-      "400": R400,
-      "401": R401,
-      "403": R403,
-      "404": R404,
-      "418": R418,
-      "500": R500,
-      "503": R503,
+      "200": Responses.Response200.doc(),
+      "201": Responses.Response201.doc(),
+      "204": Responses.Response204.doc(),
+      "400": Responses.Response400.doc(),
+      "401": Responses.Response401.doc(),
+      "403": Responses.Response403.doc(),
+      "404": Responses.Response404.doc(),
+      "418": Responses.Response418.doc(),
+      "500": Responses.Response500.doc(),
+      "503": Responses.Response503.doc(),
     },
   },
 };

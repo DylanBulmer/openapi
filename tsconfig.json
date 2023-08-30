@@ -1,28 +1,4 @@
 {
-  "compilerOptions": {
-    "target": "ES2021",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    // "lib": ["ESNext", "ES2016", "ES5"],
-    "moduleResolution": "Node",
-    "strict": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": false,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "skipLibCheck": true,
-    "declaration": true,
-    "sourceMap": true,
-    "outDir": "dist",
-    "emitDeclarationOnly": true,
-    "baseUrl": "./src",
-    "paths": {
-      "@/*": ["./*"]
-    }
-  },
-  "include": ["src/**/*", ""],
-  "exclude": ["node_modules", "**/__tests__/*", "examples"]
+  // for VSCode
+  "extends": "./tsconfig.base.json"
 }
