@@ -1,6 +1,6 @@
 {
   "name": "@dylanbulmer/api",
-  "version": "2.0.0-beta1",
+  "version": "2.0.0-beta.1",
   "main": "index.js",
   "author": "Dylan Bulmer <dylan@dylanbulmer.com>",
   "license": "MIT",
@@ -15,7 +15,6 @@
     "format": "prettier --write \"src/**/*.(ts|js)\"",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore --ext .ts src",
     "preversion": "yarn lint",
-    "version": "yarn format && git add -A src",
     "postversion": "git push && git push --tags"
   },
   "engines": {
