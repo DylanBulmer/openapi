@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import * as Responses from "../classes/responses";
+import { Responses } from "../";
 
 const settings: OpenAPIV3_1.Document = {
   openapi: "3.1.0",
@@ -8,7 +8,7 @@ const settings: OpenAPIV3_1.Document = {
   servers: [
     {
       url: `http://localhost:8000/api/`,
-      description: "Dev Server"
+      description: "Dev Server",
     },
   ],
 

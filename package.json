@@ -1,12 +1,14 @@
 {
   "name": "@dylanbulmer/api",
-  "version": "2.0.0-beta.3",
-  "main": "index.js",
+  "version": "2.0.0-beta.4",
   "author": "Dylan Bulmer <dylan@dylanbulmer.com>",
   "license": "MIT",
   "bin": {
-    "api": "dist/cjs/index.js"
+    "api": "./cjs/index.js"
   },
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "types": "./types/index.d.ts",
   "exports": {
     ".": {
       "require": "./cjs/index.js",
