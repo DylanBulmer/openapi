@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response from "../Response.js";
+import Response from "../Response";
 
 const defaultDescription = `The HTTP \`500 Internal Server Error\` server error response code indicates that the server encountered an unexpected condition that prevented it from fulfilling the request.
 

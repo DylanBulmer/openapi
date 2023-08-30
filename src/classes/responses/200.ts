@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response from "../Response.js";
+import Response from "../Response";
 
 const defaultDescription = `The HTTP \`200 OK\` success status response code indicates that the request has succeeded. A 200 response is cacheable by default.
 

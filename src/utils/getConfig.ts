@@ -28,9 +28,13 @@ const getConfig = async function getConfig() {
         }),
       );
     } else {
-      config = await import(path.join(process.cwd(), files[0])).then(
-        ({ default: config }: { default: IConfig }) => config,
-      );
+      try {
+        config = await import(path.join(process.cwd(), files[0])).then(
+          ({ default: config }: { default: IConfig }) => config,
+        );
+      } catch (e) {
+        config = {};
+      }
     }
     return config;
   }

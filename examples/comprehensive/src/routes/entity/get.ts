@@ -1,5 +1,4 @@
-import Route from "@dylanbulmer/api/classes/Route.js";
-import { Responses } from "@dylanbulmer/api";
+import { Responses, Route } from "@dylanbulmer/api";
 
 const route = new Route()
   .summary("Get all entities.")

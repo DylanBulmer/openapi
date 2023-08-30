@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
-import getConfig from "@/utils/getConfig.js";
-import buildFile from "@/utils/buildFile.js";
-import getFiles from "@/utils/getFiles.js";
+import getConfig from "@/utils/getConfig";
+import buildFile from "@/utils/buildFile";
+import getFiles from "@/utils/getFiles";
 
 const build = async function build() {
   const config = await getConfig();

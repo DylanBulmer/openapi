@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { OpenAPIV3_1 } from "openapi-types";
 import { Operation } from "../types/Route";
-import Response from "./Response.js";
-import Parameter from "./Paramater.js";
-import { BaseDescriptive } from "./Base.js";
+import Response from "./Response";
+import Parameter from "./Paramater";
+import { BaseDescriptive } from "./Base";
 
 export default class Route<
   ParamKeys extends string = string,

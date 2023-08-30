@@ -1,6 +1,7 @@
 {
   "file": {
-    "routes": "src/routes",
+    "useSrcDir": true,
+    "routes": "routes",
     "docs": "docs"
   },
   "docs": {

@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import Response from "../Response.js";
+import Response from "../Response";
 
 const defaultDescription = `The HyperText Transfer Protocol (HTTP) \`202 Accepted\` response status code indicates that the request has been accepted for processing, but the processing has not been completed; in fact, processing may not have started yet. The request might or might not eventually be acted upon, as it might be disallowed when processing actually takes place.
 

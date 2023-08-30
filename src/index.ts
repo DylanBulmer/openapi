@@ -8,8 +8,8 @@
 // import getFiles from "utils/getFiles";
 
 import { Command } from "commander";
-import start from "./commands/start.js";
-import build from "./commands/build.js";
+import start from "./commands/start";
+import build from "./commands/build";
 const program = new Command();
 
 program
@@ -17,13 +17,18 @@ program
   .description("Run the server.")
   .option("-p, --port <port>", "Server port", "8000")
   .option("-h, --host <host>", "Server host", "127.0.0.1")
-  .action(start);
+  .action((...args) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    start(...args);
+  });
 
 program.command("build").description("Build the server.").action(build);
 
 program.parse();
 
 export * as Responses from "./classes/responses/index.js";
+export { default as Document } from "./classes/Document.js";
 export { default as Parameter } from "./classes/Paramater.js";
 export { default as Response } from "./classes/Response.js";
 export { default as Route } from "./classes/Route.js";

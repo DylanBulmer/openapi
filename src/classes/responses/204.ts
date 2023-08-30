@@ -1,4 +1,4 @@
-import Response from "../Response.js";
+import Response from "../Response";
 
 const defaultDescription = `The HTTP \`204 No Content\` success status response code indicates that a request has succeeded, but that the client doesn't need to navigate away from its current page.
 

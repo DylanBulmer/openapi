@@ -1,9 +1,9 @@
 import chalk from "chalk";
 import path from "path";
-import getRoutes from "@/utils/getRoutes.js";
-import type Route from "@/classes/Route.js";
+import getRoutes from "@/utils/getRoutes";
+import type Route from "@/classes/Route";
 import type { OpenAPIV3_1 } from "openapi-types";
-import getConfig from "@/utils/getConfig.js";
+import getConfig from "@/utils/getConfig";
 
 const start = async function start(opts: { host: string; port: string }) {
   const apiDoc = {} as OpenAPIV3_1.Document;
@@ -31,7 +31,9 @@ const start = async function start(opts: { host: string; port: string }) {
             [method]: route.doc() ? route.doc() : {},
           };
         } else {
-          (<OpenAPIV3_1.PathsObject>path)[method] = route.doc() ? route.doc() : {};
+          (<OpenAPIV3_1.PathsObject>path)[method] = route.doc()
+            ? route.doc()
+            : {};
         }
       },
     );
@@ -39,6 +41,11 @@ const start = async function start(opts: { host: string; port: string }) {
 
   console.log(chalk.white.bold(`Starting server on ${opts.host}:${opts.port}`));
   console.log(JSON.stringify(apiDoc));
+
+  return {
+    doc: apiDoc,
+    app: null,
+  };
 };
 
 const construct = async function constructApp(path: string) {

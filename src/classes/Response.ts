@@ -1,5 +1,5 @@
 import { OpenAPIV3_1 } from "openapi-types";
-import { BaseDescriptive } from "./Base.js";
+import { BaseDescriptive } from "./Base";
 
 export interface IResponse {
   description: string;

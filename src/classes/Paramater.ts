@@ -1,5 +1,5 @@
 import { OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
-import { BaseDescriptive } from "./Base.js";
+import { BaseDescriptive } from "./Base";
 
 export default class Parameter extends BaseDescriptive<OpenAPIV3_1.ParameterObject> {
   constructor(param = { name: "Unknown", in: "quary" }) {
