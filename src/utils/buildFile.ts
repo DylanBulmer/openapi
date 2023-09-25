@@ -1,10 +1,8 @@
-import fs from "fs";
-import path from "path";
-import swc from "@swc/core";
-import IConfig from "@/types/Config";
+import { mkdirSync, writeFileSync } from "fs";
+import { join } from "path";
+import { transformFile } from "@swc/core";
 
 const buildFile = function buildFile(
-  config: IConfig,
   {
     folder,
     file,
@@ -13,34 +11,32 @@ const buildFile = function buildFile(
     file: string;
   },
 ) {
-  const buildDir = path.join(process.cwd(), ".api");
-  const routesDir = path.join(process.cwd(), config.file.routes);
-  const buildRoutesDir = path.join(buildDir, "routes");
-  fs.mkdirSync(path.join(buildRoutesDir, folder), { recursive: true });
-  swc
-    .transformFile(path.join(routesDir, folder, file), {
-      jsc: {
-        parser: {
-          syntax: "typescript",
-          dynamicImport: true,
-        },
+  const buildDir = join(process.cwd(), ".api");
+  mkdirSync(join(buildDir, folder.replace("src/", "")), { recursive: true });
+  transformFile(join(folder, file), {
+    jsc: {
+      parser: {
+        syntax: "typescript",
+        dynamicImport: true,
       },
-      env: {
-        targets: {
-          node: 16,
-        },
+    },
+    env: {
+      targets: {
+        node: 16,
       },
-      module: {
-        type: "es6",
-      },
-      minify: true,
-    })
+    },
+    module: {
+      type: "commonjs",
+    },
+    minify: true,
+  })
     .then(({ code }) => {
-      fs.writeFileSync(
-        path.join(buildRoutesDir, folder, file.replace(".ts", ".js")),
+      writeFileSync(
+        join(buildDir, folder.replace("src/", ""), file.replace(".ts", ".js")),
         code,
       );
-    });
+    })
+    .catch(console.error);
 };
 
 export default buildFile;

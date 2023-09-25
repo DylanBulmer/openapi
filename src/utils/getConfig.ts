@@ -3,7 +3,7 @@ import type IConfig from "@/types/Config";
 import chalk from "chalk";
 import path from "path";
 
-const getConfig = async function getConfig() {
+const getConfig = async function getConfig(): Promise<IConfig> {
   // get dirents from root location.
   const files = fs
     .readdirSync(path.join(process.cwd()), { withFileTypes: true })
@@ -20,7 +20,7 @@ const getConfig = async function getConfig() {
     process.exit();
   } else {
     const type = /.(?<ext>(j|t)s(on)?)/g.exec(files[0])?.groups?.ext as string;
-    let config;
+    let config: IConfig;
     if (type === "json") {
       config = JSON.parse(
         fs.readFileSync(path.join(process.cwd(), files[0]), {
@@ -33,7 +33,7 @@ const getConfig = async function getConfig() {
           ({ default: config }: { default: IConfig }) => config,
         );
       } catch (e) {
-        config = {};
+        config = {} as IConfig;
       }
     }
     return config;

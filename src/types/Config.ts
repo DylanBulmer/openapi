@@ -1,6 +1,12 @@
 export default interface IConfig {
   file: {
-    routes: string;
-    docs: string;
-  }
+    useSrcDir?: boolean;
+    routes?: string;
+    docs?: string;
+  };
+  docs: {
+    enabled?: boolean;
+    url?: string;
+    exposeApiDocs?: boolean;
+  };
 }

@@ -16,7 +16,7 @@
       "types": "./types/index.d.ts"
     }
   },
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "test": "jest --config jest.config.json --passWithNoTests --coverage",
     "build:esm": "tsc --project tsconfig.esm.json && tsc-alias -p tsconfig.esm.json",

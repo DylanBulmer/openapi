@@ -1,16 +1,22 @@
 import path from "path";
 import fs from "fs";
 
+/*
+  This utility recursively reads a directory and outputs an 
+  iterative list of folder, file combinations via an async
+  generator.
+*/
 const getFiles = async function* getFiles(
   folder: string,
   basePath = "/",
 ): AsyncGenerator<{
   folder: string;
+  path: string;
   file: string;
 }> {
   // get dirents from folder location.
   const dirents = fs
-    .readdirSync(folder, { withFileTypes: true })
+    .readdirSync(path.resolve(folder), { withFileTypes: true })
     .sort((a, b) => {
       // sort dynamic routes to end
       const regex = /\[(\w+)\]/i;
@@ -22,7 +28,7 @@ const getFiles = async function* getFiles(
     });
   // for each dirent, determine if it's a folder or file.
   for (const dirent of dirents) {
-    const res = path.resolve(folder, dirent.name);
+    const res = path.join(folder, dirent.name);
     if (dirent.isDirectory()) {
       // if folder, find files
       yield* getFiles(res, `${basePath}${dirent.name}/`);
@@ -30,8 +36,6 @@ const getFiles = async function* getFiles(
       // else get file name and return details
       let currentPath;
 
-      // if route name is index, update url structure
-      // if (routePath === "index") {
       // if the base path is the root, change current path to root.
       if (basePath === "/") {
         currentPath = basePath;
@@ -44,7 +48,8 @@ const getFiles = async function* getFiles(
 
       // yeild result, replacing all dynamic routes to their appropriate form.
       yield {
-        folder: currentPath,
+        folder,
+        path: currentPath,
         file: dirent.name,
       };
     }

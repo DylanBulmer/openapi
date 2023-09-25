@@ -8,8 +8,14 @@ const build = async function build() {
   const config = await getConfig();
   const buildDir = path.join(process.cwd(), ".api");
   const routesDir = path.join(
-    process.cwd(),
-    config.file.useSrcDir ? `src/${config.file.routes}` : config.file.routes,
+    config.file.useSrcDir
+      ? `src/${config.file.routes || "routes"}`
+      : config.file.routes || "routes",
+  );
+  const docsDir = path.join(
+    config.file.useSrcDir
+      ? `src/${config.file.docs || "docs"}`
+      : config.file.docs || "docs",
   );
 
   // clean the repository
@@ -20,8 +26,18 @@ const build = async function build() {
   // create build directory
   fs.mkdirSync(buildDir);
 
+  // build routes
+  console.log(routesDir);
   for await (const file of getFiles(routesDir)) {
-    buildFile(config, file);
+    console.log(file.folder);
+    buildFile(file);
+  }
+
+  // build docs
+  console.log(docsDir);
+  for await (const file of getFiles(docsDir)) {
+    console.log(file.folder);
+    buildFile(file);
   }
 };
 

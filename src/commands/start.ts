@@ -6,19 +6,24 @@ import type { OpenAPIV3_1 } from "openapi-types";
 import getConfig from "@/utils/getConfig";
 
 const start = async function start(opts: { host: string; port: string }) {
-  const apiDoc = {} as OpenAPIV3_1.Document;
-  const buildDir = path.join(process.cwd(), ".api/routes");
-
   // get the config
   const config = await getConfig();
   console.debug(chalk.blueBright(`Config: ${JSON.stringify(config)}`));
 
-  // get the files
-  const routeMethods = await construct(buildDir);
-  console.log(routeMethods);
+  const apiDoc = {} as OpenAPIV3_1.Document;
+  const buildDir = path.join(process.cwd(), ".api");
+  const builtRoutesDir = path.join(buildDir, config.file.routes || "routes")
 
-  for (const { file, method, url } of routeMethods) {
-    await import(path.join(buildDir, file)).then(
+  // GET DOCUMENT FROM DOCS BUILD DIR
+
+  // compile files into api doc and app router
+  for await (const { file, method, url } of getRoutes(builtRoutesDir)) {
+    console.debug(
+      chalk.blueBright(
+        `Compiling route: [${method.toUpperCase()}] ${url.express}`,
+      ),
+    );
+    await import(path.join(builtRoutesDir, file)).then(
       ({ default: route }: { default: Route }) => {
         if (!apiDoc.paths) {
           apiDoc.paths = {};
@@ -46,16 +51,6 @@ const start = async function start(opts: { host: string; port: string }) {
     doc: apiDoc,
     app: null,
   };
-};
-
-const construct = async function constructApp(path: string) {
-  const routeMethods = [];
-
-  for await (const route of getRoutes(path)) {
-    routeMethods.push(route);
-  }
-
-  return routeMethods;
 };
 
 export default start;
