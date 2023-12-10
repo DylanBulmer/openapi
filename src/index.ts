@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-// import { Express } from "express";
+import Express from "express";
 // import path from "path";
 // import { Method, MethodType, Operation, Route } from "./types/Route";
 // import { OpenAPIV3_1 } from "openapi-types";
@@ -20,7 +20,13 @@ program
   .action((...args) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    start(...args);
+    start(...args).then(({ opts: { port }, app }) => {
+      app.listen(port, () => {
+        console.log(
+          `⚡️ [server]: Server is running at https://localhost:${port}`,
+        );
+      });
+    });
   });
 
 program.command("build").description("Build the server.").action(build);
@@ -32,6 +38,8 @@ export { default as Document } from "./classes/Document.js";
 export { default as Parameter } from "./classes/Paramater.js";
 export { default as Response } from "./classes/Response.js";
 export { default as Route } from "./classes/Route.js";
+export { default as ApiError } from "./classes/Error.js";
+export const app = Express();
 
 // interface IOptions {
 //   app: Express;

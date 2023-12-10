@@ -1,55 +1,100 @@
+import { ErrorRequestHandler } from "express";
 import chalk from "chalk";
 import path from "path";
 import getRoutes from "@/utils/getRoutes";
 import type Route from "@/classes/Route";
-import type { OpenAPIV3_1 } from "openapi-types";
 import getConfig from "@/utils/getConfig";
+import { ApiError, app } from "@/index.js";
+import { readFileSync } from "fs";
+import { OpenAPIV3_1 } from "openapi-types";
+import * as elementsUi from "@/utils/elements-ui";
 
 const start = async function start(opts: { host: string; port: string }) {
   // get the config
   const config = await getConfig();
   console.debug(chalk.blueBright(`Config: ${JSON.stringify(config)}`));
 
-  const apiDoc = {} as OpenAPIV3_1.Document;
+  // get build directory
   const buildDir = path.join(process.cwd(), ".api");
-  const builtRoutesDir = path.join(buildDir, config.file.routes || "routes")
+  const builtRoutesDir = path.join(buildDir, config.file.routes || "routes");
 
-  // GET DOCUMENT FROM DOCS BUILD DIR
+  // get compiled apidoc file
+  const apiDoc: OpenAPIV3_1.Document = JSON.parse(
+    readFileSync(path.join(buildDir, "apidoc.json"), {
+      encoding: "utf-8",
+    }),
+  );
 
-  // compile files into api doc and app router
+  // add files into app router
   for await (const { file, method, url } of getRoutes(builtRoutesDir)) {
     console.debug(
       chalk.blueBright(
-        `Compiling route: [${method.toUpperCase()}] ${url.express}`,
+        `Creating route: [${method.toUpperCase()}] ${url.express}`,
       ),
     );
     await import(path.join(builtRoutesDir, file)).then(
       ({ default: route }: { default: Route }) => {
-        if (!apiDoc.paths) {
-          apiDoc.paths = {};
-        }
-
-        const path = apiDoc.paths[url.openapi];
-
-        if (typeof path === "undefined") {
-          apiDoc.paths[url.openapi] = {
-            [method]: route.doc() ? route.doc() : {},
-          };
-        } else {
-          (<OpenAPIV3_1.PathsObject>path)[method] = route.doc()
-            ? route.doc()
-            : {};
-        }
+        // apply the route to express app.
+        app[method](url.express, ...route.express);
       },
     );
   }
 
+  if (config.docs.enabled) {
+    const url = config.docs.url || "/docs";
+    app.get(url, (req, res) => {
+      res.send(elementsUi.render(apiDoc));
+    });
+
+    console.log(`ElementsUI is hosted at ${url}`);
+  }
+
+  if (config.docs.exposeApiDocs) {
+    const url = "/apidocs";
+    app.get(url, (_req, res) => {
+      res.status(200).json(apiDoc);
+    });
+    app.get(`${url}/expanded`, (_req, res) => {
+      const readable = JSON.stringify(apiDoc, undefined, 2);
+      res.status(200).send(`<pre>${readable}</pre>`);
+    });
+    
+    console.log(`Apidoc is exposed at ${url} and ${url}/expanded`);
+  }
+
+  // setup default error handle
+  const errorHandler: ErrorRequestHandler =
+    app.get("errorHandler") ||
+    ((err: ApiError, req, res) => {
+      return res.status(err.status).json({
+        detail: {
+          message: err.message,
+        },
+      });
+    });
+
+  app.use(((err: Error | undefined, req, res, next) => {
+    // if headers are already sent, let express handler the error
+    if (res.headersSent) {
+      return next(err);
+    }
+
+    // default error
+    const error404 = new ApiError({
+      status: 404,
+      message: `not found: ${req.path}`,
+    });
+
+    // if the path is for the API, have it handle the error
+    return errorHandler(err || error404, req, res, next);
+  }) as ErrorRequestHandler);
+
   console.log(chalk.white.bold(`Starting server on ${opts.host}:${opts.port}`));
-  console.log(JSON.stringify(apiDoc));
 
   return {
+    opts,
     doc: apiDoc,
-    app: null,
+    app,
   };
 };
 

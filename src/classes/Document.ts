@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { OpenAPIV3_1 } from "openapi-types";
 import { Base } from "./Base";
+import Route from "./Route";
+import { Method } from "@/types/Route";
 
 export default class ApiDoc extends Base<OpenAPIV3_1.Document> {
   constructor(doc = {}) {
     super(doc);
+    this._doc.openapi = "3.1.0";
   }
 
   server(server?: { url: string; description: string }) {
@@ -49,6 +52,18 @@ export default class ApiDoc extends Base<OpenAPIV3_1.Document> {
     // @ts-ignore
     this._doc.info.license = license;
     return this;
+  }
+
+  _addPath(method: Method, path: string, route: Route) {
+    if (!this._doc.paths) this._doc.paths = {};
+    const paths: OpenAPIV3_1.PathsObject = this._doc.paths;
+
+    if (!this._doc.paths[path]) {
+      paths[path] = { [method]: route.doc() ? route.doc() : {} };
+    } else {
+      // @ts-ignore
+      this._doc.paths[path][method] = route.doc() ? route.doc() : {};
+    }
   }
 
   private verifyInfo() {

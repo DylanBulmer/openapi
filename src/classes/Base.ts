@@ -6,7 +6,7 @@ export class Base<T> {
   }
 
   doc(): T {
-    return this._doc as T;
+    return { ...this._doc } as T;
   }
 }
 

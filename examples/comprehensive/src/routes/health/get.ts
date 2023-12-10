@@ -6,7 +6,7 @@ const route = new Route()
   .tags("Health")
   .response("200", Responses.Response200)
   .operation((req, res) => {
-    res.status(200).json({ message: "OK" });
+    res.status(200).json({ message: "UP" });
   });
 
 export default route;

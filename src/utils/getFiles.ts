@@ -1,5 +1,6 @@
 import path from "path";
 import fs from "fs";
+import { FileMeta } from "@/types/File";
 
 /*
   This utility recursively reads a directory and outputs an 
@@ -9,11 +10,7 @@ import fs from "fs";
 const getFiles = async function* getFiles(
   folder: string,
   basePath = "/",
-): AsyncGenerator<{
-  folder: string;
-  path: string;
-  file: string;
-}> {
+): AsyncGenerator<FileMeta> {
   // get dirents from folder location.
   const dirents = fs
     .readdirSync(path.resolve(folder), { withFileTypes: true })

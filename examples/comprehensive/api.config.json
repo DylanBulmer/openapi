@@ -7,6 +7,6 @@
   "docs": {
     "enabled": true,
     "url": "/docs",
-    "exposeApiDocs": false
+    "exposeApiDocs": true
   }
 }
