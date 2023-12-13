@@ -8,6 +8,10 @@ export default class ApiDoc extends Base<OpenAPIV3_1.Document> {
   constructor(doc = {}) {
     super(doc);
     this._doc.openapi = "3.1.0";
+
+    this.verifyInfo();
+    // @ts-ignore
+    this._doc.info.title = "Unnamed API";
   }
 
   server(server?: { url: string; description: string }) {

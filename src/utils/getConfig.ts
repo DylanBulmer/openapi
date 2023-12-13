@@ -1,5 +1,5 @@
 import fs from "fs";
-import type IConfig from "@/types/Config";
+import type IConfig from "@/classes/Config";
 import chalk from "chalk";
 import path from "path";
 

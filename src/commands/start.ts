@@ -8,14 +8,15 @@ import { ApiError, app } from "@/index.js";
 import { readFileSync } from "fs";
 import { OpenAPIV3_1 } from "openapi-types";
 import * as elementsUi from "@/utils/elements-ui";
+import { Config } from "@/classes/Config";
 
 const start = async function start(opts: { host: string; port: string }) {
   // get the config
-  const config = await getConfig();
+  const config = new Config(await getConfig());
+  const { buildDir } = config;
   console.debug(chalk.blueBright(`Config: ${JSON.stringify(config)}`));
 
   // get build directory
-  const buildDir = path.join(process.cwd(), ".api");
   const builtRoutesDir = path.join(buildDir, config.file.routes || "routes");
 
   // get compiled apidoc file
@@ -40,7 +41,7 @@ const start = async function start(opts: { host: string; port: string }) {
     );
   }
 
-  if (config.docs.enabled) {
+  if (config.docs?.enabled) {
     const url = config.docs.url || "/docs";
     app.get(url, (req, res) => {
       res.send(elementsUi.render(apiDoc));
@@ -58,7 +59,7 @@ const start = async function start(opts: { host: string; port: string }) {
       const readable = JSON.stringify(apiDoc, undefined, 2);
       res.status(200).send(`<pre>${readable}</pre>`);
     });
-    
+
     console.log(`Apidoc is exposed at ${url} and ${url}/expanded`);
   }
 
@@ -66,7 +67,7 @@ const start = async function start(opts: { host: string; port: string }) {
   const errorHandler: ErrorRequestHandler =
     app.get("errorHandler") ||
     ((err: ApiError, req, res) => {
-      return res.status(err.status).json({
+      return res.status(err?.status || 500).json({
         detail: {
           message: err.message,
         },
