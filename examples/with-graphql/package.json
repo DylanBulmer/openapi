@@ -1,0 +1,17 @@
+{
+  "name": "with-graphql-example",
+  "version": "1.0.0",
+  "description": "An example of the API framework and graphql",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "api build",
+    "start": "api start"
+  },
+  "author": "Dylan Bulmer <dylan@dylanbulmer.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@dylanbulmer/api": "^2.0.0-beta.4",
+    "express-graphql": "^0.12.0"
+  }
+}

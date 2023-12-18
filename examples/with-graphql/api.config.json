@@ -1,0 +1,12 @@
+{
+  "file": {
+    "useSrcDir": true,
+    "routes": "routes",
+    "docs": "docs"
+  },
+  "docs": {
+    "enabled": true,
+    "url": "/docs",
+    "exposeApiDocs": true
+  }
+}
