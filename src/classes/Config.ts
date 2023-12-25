@@ -26,15 +26,19 @@ export class Config {
     return path.join(process.cwd(), ".api");
   }
 
+  get srcDir() {
+    if (this.file.useSrcDir) return path.join(process.cwd(), "src");
+  }
+
   get routesDir() {
     return path.join(
       this.file.useSrcDir
         ? `src/${this.file.routes || "routes"}`
         : this.file.routes || "routes",
-    )
+    );
   }
 
-  get docsDir () {
+  get docsDir() {
     return path.join(
       this.file.useSrcDir
         ? `src/${this.file.docs || "docs"}`

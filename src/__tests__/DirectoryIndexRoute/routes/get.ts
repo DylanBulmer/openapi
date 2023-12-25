@@ -5,7 +5,7 @@ const route = new Route()
   .description("Testing route")
   .tags("TEST")
   .response("200", Responses.Response200)
-  .operation((req, res) => {
+  .operation((_req, res) => {
     res.status(200).json({ detail: { message: "OK" } });
   });
 

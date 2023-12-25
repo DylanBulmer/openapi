@@ -1,6 +1,6 @@
 import { Responses, Route, Parameter } from "../../../../";
 
-const route = new Route<"test2">()
+const route = new Route<any, "test2">()
   .params(new Parameter().in("path").name("test2"))
   .summary("Static route")
   .description("Testing dynamic routes")

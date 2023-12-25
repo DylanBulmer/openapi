@@ -5,10 +5,11 @@ import getRoutes from "@/utils/getRoutes";
 import type Route from "@/classes/Route";
 import getConfig from "@/utils/getConfig";
 import { ApiError, app } from "@/index.js";
-import { readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { OpenAPIV3_1 } from "openapi-types";
 import * as elementsUi from "@/utils/elements-ui";
 import { Config } from "@/classes/Config";
+import bodyParser from "body-parser";
 
 const start = async function start(opts: { host: string; port: string }) {
   // get the config
@@ -25,6 +26,13 @@ const start = async function start(opts: { host: string; port: string }) {
       encoding: "utf-8",
     }),
   );
+
+  // setup app with body-parser
+  app.use(bodyParser.json());
+
+  if (existsSync(path.join(buildDir, "app.js"))) {
+    import(path.join(buildDir, "app.js"));
+  }
 
   // add files into app router
   for await (const { file, method, url } of getRoutes(builtRoutesDir)) {

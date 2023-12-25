@@ -4,12 +4,14 @@ import { Operation } from "../types/Route";
 import Response from "./Response";
 import Parameter from "./Paramater";
 import { BaseDescriptive } from "./Base";
+import MediaTypeObject from "./MediaTypeObject";
 
 export default class Route<
+  RequestBody extends object = any,
   ParamKeys extends string = string,
   QueryKeys extends string = string,
 > extends BaseDescriptive<OpenAPIV3_1.OperationObject> {
-  private _operation: Operation<ParamKeys, QueryKeys>[] = [];
+  private _operation: Operation<RequestBody, ParamKeys, QueryKeys>[] = [];
 
   params(...params: Parameter[]) {
     if (!this._doc.parameters) this._doc.parameters = [];
@@ -29,12 +31,19 @@ export default class Route<
     return this;
   }
 
-  operation(...operations: Operation<ParamKeys, QueryKeys>[]) {
+  request(mime: string, obj: MediaTypeObject) {
+    if (!this._doc.requestBody) this._doc.requestBody = { content: {} };
+    (this._doc.requestBody as OpenAPIV3_1.RequestBodyObject).content[mime] =
+      obj.doc();
+    return this;
+  }
+
+  operation(...operations: Operation<RequestBody, ParamKeys, QueryKeys>[]) {
     this._operation = operations;
     return this;
   }
 
-  get express(): Operation<ParamKeys, QueryKeys>[] {
+  get express(): Operation<RequestBody, ParamKeys, QueryKeys>[] {
     return this._operation;
   }
 }

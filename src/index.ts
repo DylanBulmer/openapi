@@ -37,6 +37,7 @@ export * as Responses from "./classes/responses/index.js";
 export { default as Document } from "./classes/Document.js";
 export { default as Parameter } from "./classes/Paramater.js";
 export { default as Response } from "./classes/Response.js";
+export { default as MediaTypeObject } from "./classes/MediaTypeObject.js";
 export { default as Route } from "./classes/Route.js";
 export { default as ApiError } from "./classes/Error.js";
 export const app = Express();
